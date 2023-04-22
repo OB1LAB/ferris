@@ -1,0 +1,50 @@
+.activityTable {
+  width: auto;
+  height: 500px;
+}
+
+.cellHeader, .cellSize {
+  font-size: 16px;
+}
+
+.dates {
+  height: 100%;
+  width: 255px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bigPlayerActivity {
+  width: 216px;
+  display: flex;
+  align-items: center;
+  .nickName {
+    margin-left: 10px;
+    font-size: 16px;
+  }
+}
+
+.addPlayer {
+  height: 268px ;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  .skin {
+    height: 192px;
+    width: 96px;
+    image-rendering: pixelated;
+  }
+  .nickInput {
+    text-align: center;
+  }
+}
+
+.modalFooter {
+  width: 100%;
+  display: flex;
+  :first-child {
+    margin-right: auto;
+  }
+}

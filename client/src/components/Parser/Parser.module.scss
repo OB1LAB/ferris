@@ -1,0 +1,25 @@
+.parser {
+  width: 90vw;
+  height: calc(100vh - 195px);
+}
+
+.chat {
+  width: 100%;
+  height: calc(100% - 60px);
+  background: var(--rs-bg-card);
+  border: 1px solid var(--rs-border-secondary);
+  border-radius: 6px;
+  font-size: 17px;
+  overflow-y: auto;
+  padding-left: 7px;
+  padding-top: 5px;
+  padding-bottom: 3px;
+}
+
+.msg {
+  margin-bottom: 2px;
+}
+
+.sendMsg {
+  margin-top: 15px;
+}

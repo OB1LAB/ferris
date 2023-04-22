@@ -1,0 +1,75 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "FS Elliot Pro", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "FS Elliot Pro";
+  src: url("./fonts/FSElliotPro.eot");
+  src: local("FS Elliot Pro"), local("FSElliotPro"),
+  url("./fonts/FSElliotPro.eot?#iefix") format("embedded-opentype"),
+  url("./fonts/FSElliotPro.woff2") format("woff2"),
+  url("./fonts/FSElliotPro.woff") format("woff"),
+  url("./fonts/FSElliotPro.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FS Elliot Pro";
+  src: url("./fonts/FSElliotPro-Bold.eot");
+  src: local("FS Elliot Pro Bold"), local("FSElliotPro-Bold"),
+  url("./fonts/FSElliotPro-Bold.eot?#iefix") format("embedded-opentype"),
+  url("./fonts/FSElliotPro-Bold.woff2") format("woff2"),
+  url("./fonts/FSElliotPro-Bold.woff") format("woff"),
+  url("./fonts/FSElliotPro-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+.rs-theme-dark, .rs-theme-light {
+  transition: background-color 800ms ease;
+}
+
+:root {
+  .rs-theme-dark {
+    --background_item_shop: #151c28;
+    --background-scroolbar-thumb: #bbbbbb;
+    --rs-btn-default-bg: #21252e;
+    --rs-btn-default-hover-bg: #313744;
+    --background-color-placeholder: #202938;
+    --background-color-placeholder-table: #1a1d24;
+    --background-color-placeholder-table-item: #1D2330;
+  }
+  .rs-theme-light {
+    --background_item_shop: #f7f7fa;
+    --background-scroolbar-thumb: #b3b3b3;
+    --background-color-placeholder: #ebebeb;
+    --background-color-placeholder-table: #f7f7fa;
+    --background-color-placeholder-table-item: #ebebeb;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto 0 auto;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--background-scroolbar-thumb);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #3c3c3c;
+}
