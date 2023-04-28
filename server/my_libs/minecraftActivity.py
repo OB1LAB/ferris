@@ -1,47 +1,62 @@
-from ctypes import *
-from my_libs.OB1L1B import to_c_array_string, Player, output_time, date_range_str, if_before_date, get_config
+from my_libs.OB1L1B import output_time, date_range_str, is_before_date, log_type, get_config
 
 
+# Класс игрока
+class Player:
+    def __init__(self, player_name):
+        self.player_name = player_name
+        self.local_msg = 0
+        self.global_msg = 0
+        self.private_msg = 0
+        self.warns = 0
+        self.kicks = 0
+        self.mutes = 0
+        self.bans = 0
+        self.online_time = 0
+        self.vanish_time = 0
+        self.join_time = None
+        self.vanish_join_time = None
+        self.online_status = False
+        self.vanish_status = False
+    
+    def get_result(self, count_days):
+        avg_online_time, total_online_time = output_time(self.online_time/count_days), output_time(self.online_time)
+        avg_vanish_time, total_vanish_time = output_time(self.vanish_time/count_days), output_time(self.vanish_time)
+        return {
+            'Player': self.player_name,
+            'local_msg': self.local_msg,
+            'global_msg': self.global_msg,
+            'private_msg': self.private_msg,
+            'warns': self.warns,
+            'kicks': self.kicks,
+            'mutes': self.mutes,
+            'bans': self.bans,
+            'AVG': f'{avg_online_time}<br/>{avg_vanish_time}',
+            'Total': f'{total_online_time}<br/>{total_vanish_time}'
+        }
+        
+
+
+# Получение игровой активности
 def get_activity(first_date, second_date, players):
-    activity, len_days = {}, 1
-    sorted_players_activity = []
+    activity = {}
+    first_date, second_date = '01-03-2023', '07-03-2023'
+    for player in players:
+        activity[player] = Player(player)
     logs_path = get_config()['logs_path']
     days = date_range_str(first_date, second_date)
-    len_days = len(days)
-    before_day, days = if_before_date(days, logs_path)
-    c_players = to_c_array_string(players)
-    c_days = to_c_array_string(days)
-    activity_data = c_lib.getActivity(c_players, c_days, logs_path.encode(), before_day)
-    for i in range(len(c_players)-1):
-        activity[cast(activity_data[i].nickName[0], c_char_p).value.decode()] = {
-            'local_msg': activity_data[i].local_msg,
-            'global_msg': activity_data[i].global_msg,
-            'private_msg': activity_data[i].private_msg,
-            'warns': activity_data[i].warns,
-            'kicks': activity_data[i].kicks,
-            'mutes': activity_data[i].mutes,
-            'bans': activity_data[i].bans,
-            'online_time': output_time(activity_data[i].online_time),
-            'vanish_time': output_time(activity_data[i].vanish_time),
-            'avg_online_time': output_time(int(activity_data[i].online_time/len_days)),
-            'avg_vanish_time': output_time(int(activity_data[i].vanish_time/len_days)),
-        }
-    for player in players:
-        sorted_players_activity.append({
-            'Player': player,
-            'local_msg': activity[player]['local_msg'],
-            'global_msg': activity[player]['global_msg'],
-            'private_msg': activity[player]['private_msg'],
-            'warns': activity[player]['warns'],
-            'kicks': activity[player]['kicks'],
-            'mutes': activity[player]['mutes'],
-            'bans': activity[player]['bans'],
-            'AVG': f'{activity[player]["avg_online_time"]}<br/>{activity[player]["avg_vanish_time"]}',
-            'Total': f'{activity[player]["online_time"]}<br/>{activity[player]["vanish_time"]}'
-        })
-    return sorted_players_activity
-
-
-c_lib = CDLL('my_libs/main.dll', winmode=0x8)
-c_lib.getActivity.restype = POINTER(Player)
-c_lib.getActivity.argtypes = [POINTER(c_char_p), POINTER(c_char_p), c_char_p, c_bool]
+    count_days = len(days)
+    date = is_before_date(days, logs_path)
+    if date:
+        with open(f'{logs_path}/{date}.txt') as file:
+                for line in file:
+                    for player in players:
+                        if player in line and log_type(line.split(), activity[player], date):
+                            break
+    for date in days:
+        with open(f'{logs_path}/{date}.txt') as file:
+            for line in file:
+                for player in players:
+                    if player in line and log_type(line.split(), activity[player], date):
+                        break
+    return [activity[player].get_result(count_days) for player in players]

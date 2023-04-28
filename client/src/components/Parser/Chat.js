@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import classes from "./Parser.module.scss";
 import { observer } from "mobx-react-lite";
 
@@ -8,7 +8,7 @@ const ParserWindow = ({ messages, chatRef }) => {
       {messages.map((value) => {
         return (
           <div className={classes.msg} key={value.lid}>
-            {value.content}
+            <span dangerouslySetInnerHTML={{ __html: value.content }} />
           </div>
         );
       })}

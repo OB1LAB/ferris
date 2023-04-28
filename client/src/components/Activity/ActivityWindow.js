@@ -29,22 +29,25 @@ const ActivityWindow = () => {
   const [date2, setDate2] = useState(new Date());
   const [modalAddPlayer, setModalAddPlayer] = useState(false);
   const { width } = useWindowDimensions();
-  const getActivityData = async () => {
-    const response = await StaffService.getStaff();
-    const activity = await ActivityService.getActivity(
-      dateToString(date1),
-      dateToString(date2),
-      response.data[store.selected_server].map((item) => item.Player)
-    );
-    setData(activity.data);
-  };
+
   useEffect(() => {
-    getActivityData().then(() => setLoading(false));
-    // eslint-disable-next-line
-  }, []);
-  useEffect(() => {
+    const getActivityData = async () => {
+      try {
+        const response = await StaffService.getStaff();
+        const activity = await ActivityService.getActivity(
+          dateToString(date1),
+          dateToString(date2),
+          response.data[store.selected_server].map((item) => item.Player)
+        );
+        setData(activity.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
     setLoading(true);
-    getActivityData().then(() => setLoading(false));
+    getActivityData();
     // eslint-disable-next-line
   }, [store.selected_server, date1, date2]);
   const getHeaderWidth = () => {

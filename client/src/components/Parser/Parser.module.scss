@@ -11,6 +11,7 @@
   border-radius: 6px;
   font-size: 17px;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-left: 7px;
   padding-top: 5px;
   padding-bottom: 3px;
@@ -18,8 +19,73 @@
 
 .msg {
   margin-bottom: 2px;
+  word-wrap: break-word;
 }
 
 .sendMsg {
   margin-top: 15px;
+}
+
+.color0 {
+  color: #000000;
+}
+
+.color1 {
+  color: #0000aa;
+}
+
+.color2 {
+  color: #00aa00;
+}
+
+.color3 {
+  color: #00aaaa;
+}
+
+.color4 {
+  color: #aa0000;
+}
+
+.color5 {
+  color: #aa00aa;
+}
+
+.color6 {
+  color: #ffaa00;
+}
+
+.color7 {
+  color: #aaaaaa;
+}
+
+.color8 {
+  color: #555555;
+}
+
+.color9 {
+  color: #5555ff;
+}
+
+.colora {
+  color: #55ff55;
+}
+
+.colorb {
+  color: #55ffff;
+}
+
+.colorc {
+  color: #ff5555;
+}
+
+.colord {
+  color: #ff55ff;
+}
+
+.colore {
+  color: #ffff55;
+}
+
+.colorf {
+  color: white;
 }

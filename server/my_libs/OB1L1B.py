@@ -1,50 +1,78 @@
 import os
 import json
-import ctypes
 import requests
-from my_libs.config import Config
 from datetime import datetime, timedelta
+from my_libs.config import Config
 
 
-class Player(ctypes.Structure):  # Класс игрока для языка си
-    _fields_ = [
-        ('local_msg', ctypes.c_int),
-        ('global_msg', ctypes.c_int),
-        ('private_msg', ctypes.c_int),
-        ('warns', ctypes.c_int),
-        ('kicks', ctypes.c_int),
-        ('mutes', ctypes.c_int),
-        ('bans', ctypes.c_int),
-        ('online_time', ctypes.c_int),
-        ('vanish_time', ctypes.c_int),
-        ('join_time', ctypes.c_long),
-        ('exit_time', ctypes.c_long),
-        ('vanish_join_time', ctypes.c_int),
-        ('vanish_exit_time', ctypes.c_int),
-        ('nickName', ctypes.POINTER(ctypes.c_char) * 16),
-        ('online_status', ctypes.c_bool),
-        ('vanish_status', ctypes.c_bool)
-    ]
+# Определение типа лога
+def log_type(log, player, date):
+    if player.player_name not in log[1]:
+        return False
+    length = len(log)
+    if length == 3:
+        action = log[2]
+        if action == 'зашёл':
+            if not player.online_status:
+                player.online_status = True
+                player.join_time = to_log_unixtime(f'{date}{log[0]}')
+        elif action == 'вышел':
+            if player.online_status:
+                player.online_status = False
+                player.online_time += to_log_unixtime(f'{date}{log[0]}') - player.join_time
+                if player.vanish_status:
+                    player.vanish_status = False
+                    player.vanish_time += to_log_unixtime(f'{date}{log[0]}') - player.vanish_join_time
+    elif length > 5 and log[2] == 'issued':
+        command = log[5].lower()
+        if command in Config.private_chat_commands and length > 7 or command == '/r' and length > 6:
+            player.private_msg += 1
+        elif command == '/warn' and length > 6:
+            player.warns += 1
+        elif command in Config.mute_commands and length > 6:
+            player.mutes += 1
+        elif command == '/kick' and length > 6:
+            player.kicks += 1
+        elif command in Config.ban_commands and length > 6:
+            player.bans += 1
+        elif command == '/vanish':
+            if not player.vanish_status:
+                player.vanish_status = True
+                player.vanish_join_time = to_log_unixtime(f'{date}{log[0]}')
+            else:
+                player.vanish_status = False
+                player.vanish_time += to_log_unixtime(f'{date}{log[0]}') - player.vanish_join_time
+    elif length > 1:
+        if log[1] == '[L]':
+            player.local_msg += 1
+        elif log[1] == '[G]':
+            player.global_msg += 1
+    return True
 
 
-def to_c_array_string(array: list):
-    """
-        :param array: Питоновский массив
-        :return: Массив, который сможет понять язык си
-    """
-    byte_array = [i.encode() for i in array]
-    return (ctypes.c_char_p * (len(byte_array) + 1))(*byte_array)
+# Для первого лога, чтобы определить статусы онлайна/Ваниша
+def log_type_first_date(log, player):
+    if player.player_name not in log[1]:
+        return
+    length = len(log)
+    if length == 3:
+        action = log[2]
+        if action == 'зашёл':
+            if not player.online_status:
+                player.online_status = True
+        elif action == 'вышел':
+            if player.online_status:
+                player.online_status = False
+                if player.vanish_status:
+                    player.vanish_status = False
 
 
-def output_time(time: int) -> str:
-    """
-        :param time: Секунды
-        :return: Преобразование секунд в строков фремя форматом "Час-минута-секунда"
-    """
+
+def output_time(time):
     hours = int(time / 3600)
     time = time - hours * 3600
     minutes = int(time / 60)
-    seconds = time - minutes * 60
+    seconds = int(time - minutes * 60)
     if hours < 10:
         output = f'0{hours}'
     else:
@@ -60,26 +88,24 @@ def output_time(time: int) -> str:
     return output
 
 
-def range_days(date_1: str, date_2: str) -> range:
-    """
-        :param date_1: Первая дата в виде строки
-        :param date_2: Вторая дата в виде строки
-        :return: Количество дней между датами
-    """
+# Количество дней между двумя строковами датами
+def range_days(date_1, date_2):
     difference_days = (to_datetime(date_2) - to_datetime(date_1)).days
     return range(difference_days + 1)  # +1, т.к range работает до строго меньше указанного числа
 
 
-def to_datetime(date: str) -> datetime:  # Преобразование строковой даты в datetime
+# Преобразование строковой даты в datetime
+def to_datetime(date: str) -> datetime:  
     return datetime.strptime(date, '%d-%m-%Y')
 
 
-def date_range_str(date_1: str, date_2: str) -> list[str]:
-    """
-        :param date_1: Первая дата в виде строки
-        :param date_2: Вторая дата в виде строки
-        :return: Массив разницы дат (В виде строк). В формате: день-месяц-Год
-    """
+# Преобразование строковой даты в datetime
+def to_log_unixtime(date: str) -> datetime:  
+    return datetime.strptime(date, '%d-%m-%Y[%H:%M:%S]').timestamp()
+
+
+# Возвращает диапазон дат в формате datetime между двумя строками датами
+def date_range_str(date_1, date_2):
     dates = []
     for day in range_days(date_1, date_2):
         date_datetime = to_datetime(date_1) + timedelta(days=day)
@@ -88,20 +114,15 @@ def date_range_str(date_1: str, date_2: str) -> list[str]:
     return dates
 
 
-def if_before_date(dates: list[str], logs_path: str):
-    """
-        :param dates: Массив строковых дат
-        :param logs_path: Путь до логов
-        :return: Проверка на наличие лога днём раннее с последующим его добавлением в массив дат
-    """
+# Проверка, есть ли лог перед первой датой в логах
+def is_before_date(dates, logs_path):
     date = (to_datetime(dates[0]) - timedelta(days=1)).strftime('%d-%m-%Y')
-    if f"{date}.txt" in os.listdir(logs_path):
-        dates.insert(0, date)
-        return True, dates
-    return False, dates
+    if f'{date}.txt' in os.listdir(logs_path):
+        return date
 
 
-def get_staff() -> dict:  # Получение младшего мод.состава с сайта Скилла
+# Получение младшего мод.состава с сайта Скилла
+def get_staff():  
     staff = {}
     for server in Config.server_names_convert:
         staff[Config.server_names_convert[server]] = []
@@ -117,17 +138,18 @@ def get_staff() -> dict:  # Получение младшего мод.сост�
     return staff
 
 
+# Чтение файла
 def read_file(path, encoding=None):
-    file = open(path, 'r', encoding=encoding)
-    data = file.read()
-    file.close()
-    return data
+    with open(path, 'r', encoding=encoding) as file:
+        return file.read()
 
 
-def get_config() -> dict:  # Получение конфига
-    return json.loads(read_file(r"C:\Users\OB1CHAM\Desktop\OB1LAB\python\ferris\server\config.json", 'utf-8'))
+# Получение конфига
+def get_config():  
+    return json.loads(read_file(f'{Config.program_path}/config.json', 'utf-8'))
 
 
-def save_config(data):  # Сохранение конфига
-    with open(r"C:\Users\OB1CHAM\Desktop\OB1LAB\python\ferris\server\config.json", 'w', encoding='utf-8') as file:
+# Сохранение конфига
+def save_config(data):  
+    with open(f'{Config.program_path}/config.json', 'w', encoding='utf-8') as file:
         file.write(json.dumps(data))

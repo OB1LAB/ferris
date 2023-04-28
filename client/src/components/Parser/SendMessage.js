@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import classes from "./Parser.module.scss";
 import { observer } from "mobx-react-lite";
-import { AutoComplete, Input, InputGroup } from "rsuite";
+import { AutoComplete, InputGroup } from "rsuite";
 import Send from "@rsuite/icons/legacy/Send";
 import ParserService from "../../services/ParserService";
 
 const SendMessage = ({ msg, setMsg, macros }) => {
-  const [helpWords, setHelpWords] = useState(["Test"]);
+  const [helpWords, setHelpWords] = useState([]);
   const [sending, setSending] = useState(false);
   const send = async () => {
-    if (msg !== "" && !sending) {
+    if (msg !== "" && sending === false) {
       setSending(true);
       setMsg("");
       await ParserService.sendMsg(msg);
@@ -43,7 +43,6 @@ const SendMessage = ({ msg, setMsg, macros }) => {
         onChange={handleChange}
         placeholder="Отправить сообщение"
         filterBy={() => true}
-        onEnter={(test) => console.log(test)}
         onKeyPress={(e) =>
           e.key === "Enter" && helpWords.length === 0 && send()
         }

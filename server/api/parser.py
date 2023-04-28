@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from my_libs.logs import Logs
+import platform
 
 
 class Parser(Resource):
@@ -13,4 +13,8 @@ class Parser(Resource):
         return logs_parser.send_msg(data['msg'])
 
 
+if platform.system() == 'Windows':
+    from my_libs.logs_interact_windows import Logs
+else:
+    from my_libs.logs_interact_other import Logs
 logs_parser = Logs()

@@ -5,3 +5,4 @@ server/api/__pycache__
 server/app/__pycache__
 server/my_libs/__pycache__
 server/venv
+.vscode

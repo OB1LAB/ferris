@@ -32,7 +32,7 @@ const ParserWindow = () => {
     };
     const interval = setInterval(() => {
       getLogs();
-    }, 500);
+    }, 100);
     return () => clearInterval(interval);
     // eslint-disable-next-line
   }, [offset, msg, macros]);
