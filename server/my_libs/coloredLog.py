@@ -36,7 +36,7 @@ color_codes = {
     "§c": "color: #FF5555", 
     "§d": "color: #FF55FF",
     "§e": "color: #FFFF55", 
-    "§f": "color: #white",
+    "§f": "color: white",
     "§k": "",
     "§l": "font-weight: bold",
     "§o": "font-style: italic",
@@ -57,7 +57,8 @@ type_chats = {
     'global_msg': f'<span style="{classes["color6"]}">G</span>',
     'bd_msg': f'<span style="{classes["color4"]}">Объявление</span>',
     'mod_chat': f'<span style="{classes["color4"]}">Мод.чат</span>',
-    'alisa': f'<span style="{classes["color4"]}">Малышка</span>'
+    'alisa': f'<span style="{classes["color4"]}">Малышка</span>',
+    'discord_msg': f'<span style="{classes["colorc"]}">D</span>',
 }
 prefix = {
     "[Тех.Админ]": f'<span style="{classes["color4"]}">Тех.Админ</span>',
@@ -79,9 +80,10 @@ prefix = {
     "[Creative]": f'<span style="{classes["color9"]}">Creative</span>',
     "[Admin]": f'<span style="{classes["color4"]}">Admin</span>',
     "[Vote]": f'<span style="{classes["color9"]}">Vote</span>',
+    "[Новичок]": f'<span style="{classes["color2"]}">Новичок</span>',
     "[Объявление]": f'<span style="{classes["color4"]}">Объявление</span>'
 }
-has_html = f'</span><span style="{classes["color4"]}">Возможно данная строка содержить html код!</span>'
+has_html = f'</span><span style="{classes["color4"]}">Возможно данная строка содержит html код!</span>'
 
 
 def has_html_code(s):
@@ -95,7 +97,7 @@ def colored_line(line):
     words = line["content"].split()
     new_line = []
     for index, value in enumerate(words):
-        if index == 0:
+        if index == 0 and value.startswith('['):
             new_line.append(
                 f'<span style="{classes["color8"]}">{value} </span>'
             )
@@ -124,6 +126,7 @@ def colored_line(line):
             and not value.startswith("[")
             and not value.endswith(":")
             and line["type"] in type_chats.keys()
+            and line["type"] not in ['bd_msg', 'alisa']
         ):
             new_line.append(
                 f'<span style="{classes["color7"]}">{value} </span>'
@@ -133,7 +136,7 @@ def colored_line(line):
             and line["type"] in type_chats.keys()
             and value.endswith(":")
         ):
-            if index == 2 and value != 'Алиса:':
+            if index == 2 and value != 'Алиса:' and line["type"] not in ['discord_msg', 'bd_msg']:
                 new_line.append(
                     f'<span><span style="{classes["color7"]}">{value[:-1]}</span><span style="{classes["colorf"]}">: </span></span>'
                 )

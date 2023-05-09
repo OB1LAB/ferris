@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Context } from "./index";
+import { Context } from "./main";
 import { observer } from "mobx-react-lite";
 import { BrowserRouter } from "react-router-dom";
 import Navigation from "./components/navBar/Navigations";

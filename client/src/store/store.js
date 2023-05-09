@@ -1,7 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
 export default class Store {
-  user = {};
   isLoading = false;
   theme = localStorage.getItem("theme") || "dark";
   selected_server = localStorage.getItem("selected_server") || "HTC Elara";

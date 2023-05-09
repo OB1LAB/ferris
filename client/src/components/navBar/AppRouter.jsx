@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { routes } from "../../router/index";
-import { INDEX_ROUTE } from "../../router/consts";
+import { INDEX_ROUTE } from "../../router/const";
 import { observer } from "mobx-react-lite";
 
 const AppRouter = () => {

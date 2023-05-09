@@ -1,7 +1,7 @@
 import Index from "../pages/Index";
 import Activity from "../pages/Activity";
 import Parser from "../pages/Parser";
-import { INDEX_ROUTE, ACTIVITY_ROUTE, PARSER_ROUTE } from "./consts";
+import { INDEX_ROUTE, ACTIVITY_ROUTE, PARSER_ROUTE } from "./const";
 
 export const routes = [
   {
