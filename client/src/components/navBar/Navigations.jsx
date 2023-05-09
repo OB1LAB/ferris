@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Context } from "../..";
+import { Context } from "../../main";
 import { observer } from "mobx-react-lite";
-import { INDEX_ROUTE, ACTIVITY_ROUTE, PARSER_ROUTE } from "../../router/consts";
+import { INDEX_ROUTE, ACTIVITY_ROUTE, PARSER_ROUTE } from "../../router/const";
 import { Nav, Toggle } from "rsuite";
 import Pc from "@rsuite/icons/legacy/Pc";
 import HomeIcon from "@rsuite/icons/legacy/Home";

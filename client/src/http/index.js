@@ -1,5 +1,5 @@
 import axios from "axios";
-export const API_URL = `${process.env.REACT_APP_SERVER_URL}/api`;
+export const API_URL = `${import.meta.env.VITE_APP_SERVER_URL}/api`;
 
 const $api = axios.create({
   baseURL: API_URL,

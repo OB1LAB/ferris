@@ -4,7 +4,6 @@ import App from "./App";
 import Store from "./store/store";
 
 const store = new Store();
-
 export const Context = createContext({
   store,
 });

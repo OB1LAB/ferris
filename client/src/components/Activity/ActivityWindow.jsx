@@ -5,7 +5,7 @@ import BigTableActivity from "./BigTableActivity";
 import ModalAddPlayer from "./ModalAddPlayer";
 import StaffService from "../../services/StaffService";
 import ActivityService from "../../services/ActivityService";
-import { Context } from "../../index";
+import { Context } from "../../main";
 
 function getMondayOfCurrentWeek() {
   const date = new Date();
@@ -22,7 +22,6 @@ function dateToString(date) {
 
 const ActivityWindow = () => {
   const { store } = useContext(Context);
-  const [staff, setStaff] = [];
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [date1, setDate1] = useState(getMondayOfCurrentWeek());
@@ -30,22 +29,23 @@ const ActivityWindow = () => {
   const [modalAddPlayer, setModalAddPlayer] = useState(false);
   const { width } = useWindowDimensions();
 
+  const getActivityData = async () => {
+    try {
+      const response = await StaffService.getStaff();
+      const activity = await ActivityService.getActivity(
+        dateToString(date1),
+        dateToString(date2),
+        response.data[store.selected_server].map((item) => item.Player)
+      );
+      setData(activity.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const getActivityData = async () => {
-      try {
-        const response = await StaffService.getStaff();
-        const activity = await ActivityService.getActivity(
-          dateToString(date1),
-          dateToString(date2),
-          response.data[store.selected_server].map((item) => item.Player)
-        );
-        setData(activity.data);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
     setLoading(true);
     getActivityData();
     // eslint-disable-next-line
