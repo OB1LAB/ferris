@@ -27,15 +27,15 @@ color_codes = {
     "§3": "color: #00AAAA",
     "§4": "color: #AA0000",
     "§5": "color: #AA00AA",
-    "§6": "color: #FFAA00", 
-    "§7": "color: #AAAAAA", 
+    "§6": "color: #FFAA00",
+    "§7": "color: #AAAAAA",
     "§8": "color: #555555",
-    "§9": "color: #5555FF", 
-    "§a": "color: #55FF55", 
-    "§b": "color: #55FFFF", 
-    "§c": "color: #FF5555", 
+    "§9": "color: #5555FF",
+    "§a": "color: #55FF55",
+    "§b": "color: #55FFFF",
+    "§c": "color: #FF5555",
     "§d": "color: #FF55FF",
-    "§e": "color: #FFFF55", 
+    "§e": "color: #FFFF55",
     "§f": "color: white",
     "§k": "",
     "§l": "font-weight: bold",
@@ -162,5 +162,9 @@ def colored_line(line):
                 f'<span style="{classes["color5"]}">{value} </span>'
             )
         else:
-            new_line.append(f"{value} ")
+            if value.startswith('http://') or value.startswith('https://'):
+                new_line.append(
+                    f'<a href="{value}" target="_blank">{value}</a>')
+            else:
+                new_line.append(f"{value} ")
     return format_text("".join(new_line))

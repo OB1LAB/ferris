@@ -13,7 +13,10 @@ function startsWithCapital(str) {
 function removeLastWord(str) {
   const words = str.split(" ");
   if (words.length === 1) {
-    return [str.charAt(0) === "!" ? "!" : "", str.substring(1)];
+    return [
+      str.charAt(0) === "!" ? "!" : "",
+      str.charAt(0) === "!" ? str.substring(1) : str,
+    ];
   }
   const word = words.pop();
   return [words.join(" "), word];
