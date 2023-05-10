@@ -18,12 +18,13 @@ const ParserWindow = () => {
   const scrollChatToBottom = () => {
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
   };
-  const getMacros = async () => {
+  const getData = async () => {
     try {
-      const response = await ParserService.getMacros();
+      const response = await ParserService.getData();
       const data = response.data;
       setMacros(data.macros);
       setPlayers(data.players);
+      setMessages(data.logs);
     } catch (err) {
       console.log(err);
     }
@@ -40,7 +41,7 @@ const ParserWindow = () => {
         ...chatMsg.map((value) => value.player).filter((value) => value !== ""),
       ]);
     });
-    getMacros();
+    getData();
     if (socket) return () => socket.disconnect();
   }, []);
   useEffect(() => {

@@ -14,6 +14,7 @@ class Logs:
         self.run = False
         self.minecraft_pid = None
         self.players = []
+        self.history = []
         self.log_path = f'{Config.minecraft_path}/logs/fml-client-latest.log'
         self.msg_path = f'{Config.minecraft_path}/liteconfig/common/macros/OB1LAB.txt'
         self.macros = get_value_macros()
@@ -66,14 +67,17 @@ class Logs:
                         'content': line_data['value'],
                         'player': player
                     })
+                    self.history.append(new_msg[-1])
                 if new_msg:
                     socketio.emit('new_msg', new_msg)
                 self.offset = len_lines
                 socketio.sleep(self.timeout_update)
+                self.history = self.history[-self.limit:]
             socketio.sleep(1)
 
     def get_data(self):
         return {
             'macros': self.macros,
-            'players': self.players
+            'players': self.players,
+            'logs': self.history
         }

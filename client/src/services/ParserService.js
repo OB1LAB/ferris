@@ -1,7 +1,7 @@
 import $api from "../http";
 
 export default class ParserService {
-  static getMacros() {
+  static getData() {
     return $api.get(`/parser`);
   }
   static sendMsg(msg) {
