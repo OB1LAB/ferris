@@ -1,7 +1,13 @@
 import Index from "../pages/Index";
-import Activity from "../pages/Activity";
 import Parser from "../pages/Parser";
-import { INDEX_ROUTE, ACTIVITY_ROUTE, PARSER_ROUTE } from "./const";
+import {
+  INDEX_ROUTE,
+  ACTIVITY_ROUTE,
+  PARSER_ROUTE,
+  FINDER_ROUTE,
+} from "./const";
+import Finder from "../pages/Finder";
+import Activity from "../pages/Activity";
 
 export const routes = [
   {
@@ -15,5 +21,9 @@ export const routes = [
   {
     path: PARSER_ROUTE,
     Element: <Parser />,
+  },
+  {
+    path: FINDER_ROUTE,
+    Element: <Finder />,
   },
 ];

@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./Activity.module.scss";
 import { observer } from "mobx-react-lite";
-import { DatePicker, IconButton, Table } from "rsuite";
+import { DatePicker, IconButton, Table, Tooltip, Whisper } from "rsuite";
 import Trash from "@rsuite/icons/Trash";
 import Plus from "@rsuite/icons/Plus";
 import BigPlayerActivity from "./BigPlayerActivity";
+import { Context } from "../../main";
 
 const { Column, HeaderCell, Cell } = Table;
 
 const BigTableActivity = ({
   data,
-  setData,
   widthTable,
   activityHeaderWidth,
   date1,
@@ -20,6 +20,7 @@ const BigTableActivity = ({
   loading,
   setModalAddPlayer,
 }) => {
+  const { store } = useContext(Context);
   return (
     <Table
       data={data}
@@ -30,9 +31,11 @@ const BigTableActivity = ({
       disabledScroll
       autoHeight
       hover={false}
+      loadAnimation={true}
+      loading={loading}
       locale={{
         emptyMessage: "Список игроков пустой",
-        loading: "Загружаем список игроков...",
+        loading: "Загрузка...",
       }}
     >
       <Column width={275}>
@@ -53,7 +56,9 @@ const BigTableActivity = ({
           </div>
         </HeaderCell>
         <Cell verticalAlign="middle">
-          {(rowData) => <BigPlayerActivity Player={rowData.Player} />}
+          {(rowData) => (
+            <BigPlayerActivity Player={rowData.Player} group={rowData.Group} />
+          )}
         </Cell>
       </Column>
 
@@ -128,7 +133,7 @@ const BigTableActivity = ({
         <Cell
           className={classes.cellSize}
           verticalAlign="middle"
-          dataKey="kicks"
+          dataKey="mutes"
         />
       </Column>
 
@@ -143,7 +148,7 @@ const BigTableActivity = ({
         <Cell
           className={classes.cellSize}
           verticalAlign="middle"
-          dataKey="mutes"
+          dataKey="kicks"
         />
       </Column>
       <Column width={activityHeaderWidth}>
@@ -174,7 +179,21 @@ const BigTableActivity = ({
           align="center"
         >
           {(rowData) => (
-            <div dangerouslySetInnerHTML={{ __html: rowData.AVG }}></div>
+            <Whisper
+              trigger="hover"
+              placement="top"
+              speaker={
+                <Tooltip>
+                  Средний онлайн без ваниша: {rowData.AVG_without_vanish}
+                </Tooltip>
+              }
+            >
+              <div>
+                {rowData.AVG}
+                <br />
+                {rowData.AVG_vanish}
+              </div>
+            </Whisper>
           )}
         </Cell>
       </Column>
@@ -192,7 +211,21 @@ const BigTableActivity = ({
           align="center"
         >
           {(rowData) => (
-            <div dangerouslySetInnerHTML={{ __html: rowData.Total }}></div>
+            <Whisper
+              trigger="hover"
+              placement="top"
+              speaker={
+                <Tooltip>
+                  Общий онлайн без ваниша: {rowData.Total_without_vanish}
+                </Tooltip>
+              }
+            >
+              <div>
+                {rowData.Total}
+                <br />
+                {rowData.Total_vanish}
+              </div>
+            </Whisper>
           )}
         </Cell>
       </Column>
@@ -213,9 +246,15 @@ const BigTableActivity = ({
               color="red"
               appearance="primary"
               size="lg"
-              onClick={() =>
-                setData(data.filter((item) => item.Player !== rowData.Player))
-              }
+              onClick={() => {
+                const newStaff = JSON.parse(JSON.stringify(store.staff));
+                store.setStaff({
+                  ...newStaff,
+                  [store.selected_server]: newStaff[
+                    store.selected_server
+                  ].filter((player) => player.Player !== rowData.Player),
+                });
+              }}
             />
           )}
         </Cell>

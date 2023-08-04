@@ -11,10 +11,10 @@
   font-family: "FS Elliot Pro";
   src: url("./fonts/FSElliotPro.eot");
   src: local("FS Elliot Pro"), local("FSElliotPro"),
-  url("./fonts/FSElliotPro.eot?#iefix") format("embedded-opentype"),
-  url("./fonts/FSElliotPro.woff2") format("woff2"),
-  url("./fonts/FSElliotPro.woff") format("woff"),
-  url("./fonts/FSElliotPro.ttf") format("truetype");
+    url("./fonts/FSElliotPro.eot?#iefix") format("embedded-opentype"),
+    url("./fonts/FSElliotPro.woff2") format("woff2"),
+    url("./fonts/FSElliotPro.woff") format("woff"),
+    url("./fonts/FSElliotPro.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -23,15 +23,16 @@
   font-family: "FS Elliot Pro";
   src: url("./fonts/FSElliotPro-Bold.eot");
   src: local("FS Elliot Pro Bold"), local("FSElliotPro-Bold"),
-  url("./fonts/FSElliotPro-Bold.eot?#iefix") format("embedded-opentype"),
-  url("./fonts/FSElliotPro-Bold.woff2") format("woff2"),
-  url("./fonts/FSElliotPro-Bold.woff") format("woff"),
-  url("./fonts/FSElliotPro-Bold.ttf") format("truetype");
+    url("./fonts/FSElliotPro-Bold.eot?#iefix") format("embedded-opentype"),
+    url("./fonts/FSElliotPro-Bold.woff2") format("woff2"),
+    url("./fonts/FSElliotPro-Bold.woff") format("woff"),
+    url("./fonts/FSElliotPro-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
-.rs-theme-dark, .rs-theme-light {
+.rs-theme-dark,
+.rs-theme-light {
   transition: background-color 800ms ease;
 }
 
@@ -43,7 +44,13 @@
     --rs-btn-default-hover-bg: #313744;
     --background-color-placeholder: #202938;
     --background-color-placeholder-table: #1a1d24;
-    --background-color-placeholder-table-item: #1D2330;
+    --background-color-placeholder-table-item: #1d2330;
+    .rs-picker-menu:not(.rs-picker-picker-select-menu):not(
+        .rs-picker-check-menu
+      ):not([role])
+      .rs-auto-complete-menu-items {
+      opacity: 0.9;
+    }
   }
   .rs-theme-light {
     --background_item_shop: #f7f7fa;
@@ -51,6 +58,22 @@
     --background-color-placeholder: #ebebeb;
     --background-color-placeholder-table: #f7f7fa;
     --background-color-placeholder-table-item: #ebebeb;
+  }
+  .rs-picker-menu:not(.rs-picker-picker-select-menu):not(
+      .rs-picker-check-menu
+    ):not([role]) {
+    margin-top: -171px;
+    min-height: 120px;
+    background-color: transparent;
+    box-shadow: none;
+    .rs-auto-complete-menu-items {
+      background-color: var(--rs-bg-overlay);
+      box-shadow: var(--rs-shadow-overlay);
+      border-radius: 5px 5px 0 0;
+    }
+    .rs-auto-complete-menu-items:last-child {
+      margin-top: auto;
+    }
   }
 }
 
@@ -72,4 +95,65 @@
 
 ::-webkit-scrollbar-track {
   background-color: #3c3c3c;
+}
+
+.helper1 {
+  color: #51cf89;
+}
+
+.helper2 {
+  color: #26a65b;
+}
+
+.moder {
+  color: #9400d3;
+}
+
+.infoPage {
+  width: 100%;
+  padding: 15px;
+  padding-top: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  .about {
+    max-width: 1200px;
+  }
+  .activityPage {
+    max-width: 1200px;
+    margin-top: 8px;
+  }
+  .parserPage {
+    max-width: 1200px;
+    margin-top: 8px;
+  }
+  .finderPage {
+    max-width: 1200px;
+    margin-top: 8px;
+  }
+  .list {
+    margin-left: 15px;
+    background-color: var(--rs-bg-card);
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+  }
+  .infoButtons {
+    height: 85px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .func {
+    width: 330px;
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+  }
+  .progressBar {
+    width: 85px;
+  }
 }

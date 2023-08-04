@@ -35,7 +35,8 @@ const ActivityWindow = () => {
       const activity = await ActivityService.getActivity(
         dateToString(date1),
         dateToString(date2),
-        response.data[store.selected_server].map((item) => item.Player)
+        response.data[store.selected_server].map((item) => item.Player),
+        store.selected_server
       );
       setData(activity.data);
     } catch (err) {

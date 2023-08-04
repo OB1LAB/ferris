@@ -5,7 +5,7 @@ from app import socketio
 import platform
 
 
-class Parser(Resource):
+class ParserApi(Resource):
     def get(self):
         return logs_parser.get_data()
 

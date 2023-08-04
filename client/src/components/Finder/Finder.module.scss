@@ -1,0 +1,147 @@
+.finder {
+  width: 90vw;
+  height: calc(100vh - 80px);
+}
+
+.findPanel {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: -10px;
+}
+
+.findPanelMobile {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+
+.dates {
+  min-width: 250px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  // justify-self: center;
+  .date {
+    width: 100%;
+  }
+}
+
+.outputLogs {
+  width: 100%;
+  max-height: calc(100% - 57px);
+  height: inherit;
+  background: var(--rs-bg-card);
+  border: 1px solid var(--rs-border-secondary);
+  border-radius: 6px;
+  font-size: 17px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 7px;
+  padding-top: 5px;
+  padding-bottom: 3px;
+  margin-top: 12px;
+}
+
+.loading {
+  opacity: 0.8;
+}
+
+.modalFooter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  .buttons {
+    width: 530px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.content {
+  width: 530px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 15px;
+  .underContent {
+    width: 530px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 10px;
+  }
+}
+
+.filters {
+  width: 530px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .filter {
+    min-height: 216px;
+    width: 250px;
+  }
+  h6 {
+    margin-bottom: 5px;
+  }
+}
+
+.selector {
+  margin-left: 15px;
+  width: 530px;
+}
+
+.radioSelector {
+  height: 36px;
+  width: 240px;
+  background: var(--rs-input-bg);
+}
+
+.navItem {
+  height: 25px;
+}
+
+.selectWorlds {
+  width: 240px;
+}
+
+.radioSelectorText {
+  padding: 8px 2px 8px 10px;
+  display: inline-block;
+  vertical-align: center;
+}
+
+.pickupTypes {
+  height: 80px;
+  width: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.coordinates {
+  height: 80px;
+  width: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  div {
+    width: auto;
+  }
+}
+
+.pos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .posItem {
+    width: 125px;
+  }
+}

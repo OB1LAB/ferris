@@ -1,11 +1,12 @@
 .parser {
   width: 90vw;
-  height: calc(100vh - 195px);
+  height: calc(100vh - 80px);
 }
 
 .chat {
   width: 100%;
-  height: calc(100% - 60px);
+  max-height: calc(100% - 57px);
+  height: inherit;
   background: var(--rs-bg-card);
   border: 1px solid var(--rs-border-secondary);
   border-radius: 6px;
@@ -24,68 +25,4 @@
 
 .sendMsg {
   margin-top: 15px;
-}
-
-.color0 {
-  color: #000000;
-}
-
-.color1 {
-  color: #0000aa;
-}
-
-.color2 {
-  color: #00aa00;
-}
-
-.color3 {
-  color: #00aaaa;
-}
-
-.color4 {
-  color: #aa0000;
-}
-
-.color5 {
-  color: #aa00aa;
-}
-
-.color6 {
-  color: #ffaa00;
-}
-
-.color7 {
-  color: #aaaaaa;
-}
-
-.color8 {
-  color: #555555;
-}
-
-.color9 {
-  color: #5555ff;
-}
-
-.colora {
-  color: #55ff55;
-}
-
-.colorb {
-  color: #55ffff;
-}
-
-.colorc {
-  color: #ff5555;
-}
-
-.colord {
-  color: #ff55ff;
-}
-
-.colore {
-  color: #ffff55;
-}
-
-.colorf {
-  color: white;
 }

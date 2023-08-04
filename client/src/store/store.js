@@ -4,6 +4,10 @@ export default class Store {
   isLoading = false;
   theme = localStorage.getItem("theme") || "dark";
   selected_server = localStorage.getItem("selected_server") || "HTC Elara";
+  socket = null;
+  socketIsConnected = false;
+  staff = {};
+  actualVersion = null;
   constructor() {
     makeAutoObservable(this);
   }
@@ -21,5 +25,17 @@ export default class Store {
       this.theme = "dark";
     }
     localStorage.setItem("theme", this.theme);
+  }
+  setSocketConnect(bool) {
+    this.socketIsConnected = bool;
+  }
+  setSocket(socket) {
+    this.socket = socket;
+  }
+  setStaff(staff) {
+    this.staff = staff;
+  }
+  setActualVersion(actualVersion) {
+    this.actualVersion = actualVersion;
   }
 }

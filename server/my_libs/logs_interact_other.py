@@ -65,6 +65,7 @@ class Logs:
 
     def send_msg(self, msg):
         if not self.current_window and not self.set_minecraft_app():
+            socketio.emit('error', 'Майнкрафт не запущен')
             return False
         self.write_msg(msg)
         press_button(self.display, self.current_window)

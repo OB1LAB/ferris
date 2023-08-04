@@ -39,6 +39,7 @@ class Logs:
 
     def send_msg(self, msg):
         if not self.app and not self.set_minecraft_app():
+            socketio.emit('error', 'Майнкрафт не запущен')
             return False
         self.write_msg(msg)
         self.form.send_keystrokes('{RMENU down}')

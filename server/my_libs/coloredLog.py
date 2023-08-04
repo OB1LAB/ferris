@@ -136,7 +136,7 @@ def colored_line(line):
             and line["type"] in type_chats.keys()
             and value.endswith(":")
         ):
-            if index == 2 and value != 'Алиса:' and line["type"] not in ['discord_msg', 'bd_msg']:
+            if index == 2 and value != 'Алиса:' and line["type"] not in ['discord_msg', 'bd_msg', 'mod_chat']:
                 new_line.append(
                     f'<span><span style="{classes["color7"]}">{value[:-1]}</span><span style="{classes["colorf"]}">: </span></span>'
                 )

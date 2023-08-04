@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Parser.module.scss";
 import { observer } from "mobx-react-lite";
 
-const ParserWindow = ({ messages, chatRef }) => {
+const Chat = ({ messages, chatRef }) => {
   return (
     <div className={classes.chat} ref={chatRef}>
       {messages.map((value) => {
@@ -16,4 +16,4 @@ const ParserWindow = ({ messages, chatRef }) => {
   );
 };
 
-export default observer(ParserWindow);
+export default observer(Chat);

@@ -1,15 +1,59 @@
-import { useContext } from "react";
-import { Context } from "./main";
+import { useContext, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { BrowserRouter } from "react-router-dom";
-import Navigation from "./components/navBar/Navigations";
-import AppRouter from "./components/navBar/AppRouter";
-import { CustomProvider, Loader } from "rsuite";
+import { io } from "socket.io-client";
+import { Context } from "./main";
+import Navigation from "./components/NavBar/Navigation";
+import AppRouter from "./components/NavBar/AppRouter";
+import StaffService from "./services/StaffService";
+import { CustomProvider, Loader, useToaster, Notification } from "rsuite";
 import "./App.scss";
 import "rsuite/dist/rsuite.min.css";
+import infoService from "./services/InfoService";
 
 function App() {
   const { store } = useContext(Context);
+  const toaster = useToaster();
+
+  const getStaff = async () => {
+    try {
+      const response = await StaffService.getStaff();
+      store.setStaff(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getActualVersion = async () => {
+    try {
+      const response = await infoService.get();
+      store.setActualVersion(response.data.actual_version);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const socket = io(`http://${window.location.hostname}:8000`);
+    store.setSocket(socket);
+    store.socket.on("connect", () => {
+      store.setSocketConnect(true);
+    });
+    store.socket.on("error", (errorMsg) => {
+      toaster.push(
+        <Notification type="error" header="Ошибка" closable>
+          {errorMsg}
+        </Notification>,
+        { placement: "topEnd" }
+      );
+    });
+    getStaff();
+    getActualVersion();
+    if (store.socket) {
+      return () => store.socket.disconnect();
+    }
+  }, []);
+
   if (store.isLoading) {
     return <Loader backdrop content="Загрузка..." vertical />;
   }

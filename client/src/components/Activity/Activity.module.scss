@@ -3,7 +3,8 @@
   height: 500px;
 }
 
-.cellHeader, .cellSize {
+.cellHeader,
+.cellSize {
   font-size: 16px;
 }
 
@@ -26,7 +27,7 @@
 }
 
 .addPlayer {
-  height: 268px ;
+  height: 268px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,4 +48,56 @@
   :first-child {
     margin-right: auto;
   }
+}
+
+.mobile_buttons {
+  width: 295px;
+  height: 34px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile_activity {
+  width: 305px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: var(--rs-bg-card);
+  padding: 15px;
+  padding-top: 1px;
+  border-radius: 6px;
+}
+
+.mobile_activity_zone {
+  width: 305px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobile_player {
+  display: flex;
+  align-items: center;
+  .mobile_name {
+    margin-left: 10px;
+  }
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.mobile_data {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  border-bottom: 1px solid var(--rs-border-secondary);
+}
+
+.mobile_row {
+  width: 50%;
+}
+
+.loading {
+  opacity: 0.8;
 }
