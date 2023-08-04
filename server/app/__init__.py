@@ -18,4 +18,8 @@ def index():
 def favicon():
     return send_file('../static/favicon.ico')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return send_file('../static/index.html')
+
 from app import routes

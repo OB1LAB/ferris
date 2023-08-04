@@ -84,16 +84,17 @@ class Logs:
                     self.offset = len_lines - self.limit
                 for line_index in range(self.offset, len_lines):
                     line_data = get_log_data(local_logs[line_index])
-                    player = ''
-                    if line_data['player'] and line_data['player'] not in self.players:
-                        self.players.append(line_data['player'])
-                        player = line_data['player']
-                    new_msg.append({
-                        'lid': line_index,
-                        'content': line_data['value'],
-                        'player': player
-                    })
-                    self.history.append(new_msg[-1])
+                    if line_data:
+                        player = ''
+                        if line_data['player'] and line_data['player'] not in self.players:
+                            self.players.append(line_data['player'])
+                            player = line_data['player']
+                        new_msg.append({
+                            'lid': line_index,
+                            'content': line_data['value'],
+                            'player': player
+                        })
+                        self.history.append(new_msg[-1])
                 if new_msg:
                     socketio.emit('new_msg', new_msg)
                 self.offset = len_lines

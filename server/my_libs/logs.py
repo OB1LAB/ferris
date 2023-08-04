@@ -94,10 +94,11 @@ def get_log_data(line):
                 data_log['player'] = log[7].split(':')[0]
             else:
                 data_log['player'] = log[8].split(':')[0]
-    return {
-        'value': colored_line(data_log),
-        'player': data_log['player']
-    }
+    if data_log['type'] in allowed_types:
+        return {
+            'value': colored_line(data_log),
+            'player': data_log['player']
+        }
 
 
 # Получение всех биндов
