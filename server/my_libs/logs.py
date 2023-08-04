@@ -29,6 +29,8 @@ def get_log_data(line):
         'type': 'Other',
         'player': None
     }
+    allowed_types = ['mod_chat', 'alisa', 'private_msg', 'afk',
+                     'afk_returned', 'local_msg', 'global_msg', 'bd_msg', 'discord_msg']
     data_in_brackets = in_brackets(line)
     if data_in_brackets:
         data_in_brackets = data_in_brackets[0]
