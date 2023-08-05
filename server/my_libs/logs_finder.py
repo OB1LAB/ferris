@@ -27,7 +27,7 @@ def global_find(first_date, second_date, find_data, server):
             if f'{date}.txt' not in local_logs:
                 not_found_logs.append(date)
                 continue
-            with open(f'{logs_path}/{date}.txt') as file:
+            with open(f'{logs_path}/{date}.txt', encoding='utf-8') as file:
                 for line in file:
                     black_line = False
                     if is_black_list:
@@ -66,7 +66,7 @@ def global_find(first_date, second_date, find_data, server):
                     if offset == 1:
                         not_found_logs.append(date_private)
                     break
-                with open(f'{logs_path}/{offset_date}') as file:
+                with open(f'{logs_path}/{offset_date}', encoding='utf-8') as file:
                     for line in file:
                         black_line = False
                         if is_black_list:
@@ -119,7 +119,7 @@ def global_find(first_date, second_date, find_data, server):
             if f'{date}.log' not in local_logs:
                 not_found_logs.append(date)
                 continue
-            with open(f'{logs_path}/{date}.log') as file:
+            with open(f'{logs_path}/{date}.log', encoding='utf-8') as file:
                 for line in file:
                     world = line.split('Мир: ')[1].split()[0]
                     x_line = int(line.split('x=')[1].split(',')[0])

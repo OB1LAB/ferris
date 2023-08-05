@@ -66,7 +66,7 @@ def get_activity(first_date, second_date, players_data, server):
         if f'{date}.txt' not in local_logs:
             not_found_logs.append(date)
         else:
-            with open(f'{logs_path}/{date}.txt') as file:
+            with open(f'{logs_path}/{date}.txt', encoding='utf-8') as file:
                 for line in file:
                     for player in players:
                         if player in line and log_activity(line.split(), activity[player], date):
@@ -87,7 +87,7 @@ def get_activity(first_date, second_date, players_data, server):
         if f'{date}.txt' not in local_logs:
             not_found_logs.append(date)
             continue
-        with open(f'{logs_path}/{date}.txt') as file:
+        with open(f'{logs_path}/{date}.txt', encoding='utf-8') as file:
             for line in file:
                 for player in players:
                     if player in line and log_activity(line.split(), activity[player], date):

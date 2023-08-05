@@ -13,7 +13,7 @@ from threading import Thread
 def download_logs(server, date, logs_path):
     logs_content = requests.get(
         f'https://ob1lab.ru/api/logs?server={server}&date={date}').text
-    with open(f'{logs_path}/{date}.txt', 'w') as file:
+    with open(f'{logs_path}/{date}.txt', 'w', encoding='utf-8') as file:
         file.write(logs_content)
 
 
