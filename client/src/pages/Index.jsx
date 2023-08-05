@@ -8,7 +8,7 @@ import LogsService from "../services/LogsService";
 import { Context } from "../main";
 
 const Index = () => {
-  const myVersion = "1.03";
+  const myVersion = "1.04";
   const { store } = useContext(Context);
   const [loading, setLoading] = useState(false);
   const [percent, setPercent] = useState(0);
