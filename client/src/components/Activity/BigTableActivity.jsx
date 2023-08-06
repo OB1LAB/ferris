@@ -43,12 +43,14 @@ const BigTableActivity = ({
           <div className={classes.dates}>
             <DatePicker
               oneTap
+              isoWeek
               cleanable={false}
               value={date1}
               onChange={setDate1}
             />
             <DatePicker
               oneTap
+              isoWeek
               cleanable={false}
               value={date2}
               onChange={setDate2}
