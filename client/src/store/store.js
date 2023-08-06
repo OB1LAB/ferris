@@ -8,6 +8,7 @@ export default class Store {
   socketIsConnected = false;
   staff = {};
   actualVersion = null;
+  lastLogsUpdate = null;
   constructor() {
     makeAutoObservable(this);
   }
@@ -37,5 +38,8 @@ export default class Store {
   }
   setActualVersion(actualVersion) {
     this.actualVersion = actualVersion;
+  }
+  setLastLogsUpdate(dateTime) {
+    this.lastLogsUpdate = dateTime;
   }
 }

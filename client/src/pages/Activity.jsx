@@ -24,7 +24,6 @@ const Activity = () => {
   const { store } = useContext(Context);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  // const [staff, setStaff] = useState({});
   const [date1, setDate1] = useState(getMondayOfCurrentWeek());
   const [date2, setDate2] = useState(new Date());
   const [modalAddPlayer, setModalAddPlayer] = useState(false);

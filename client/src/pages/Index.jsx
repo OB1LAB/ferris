@@ -5,10 +5,11 @@ import Pc from "@rsuite/icons/legacy/Pc";
 import Commenting from "@rsuite/icons/legacy/Commenting";
 import Search from "@rsuite/icons/legacy/Search";
 import LogsService from "../services/LogsService";
+import InfoService from "../services/InfoService";
 import { Context } from "../main";
 
 const Index = () => {
-  const myVersion = "1.04";
+  const myVersion = "1.05";
   const { store } = useContext(Context);
   const [loading, setLoading] = useState(false);
   const [percent, setPercent] = useState(0);
@@ -19,6 +20,8 @@ const Index = () => {
     setLoading(true);
     await LogsService.downloadLogs(store.selected_server);
     setLoading(false);
+    const info = await InfoService.get();
+    store.setLastLogsUpdate(info.data.last_update)
   };
   const openLogsFolder = () => {
     LogsService.openLogsFolder();
@@ -196,6 +199,8 @@ const Index = () => {
         <br />
         Актуальная версия:{" "}
         <span style={{ color: "#52c41a" }}>{store.actualVersion}</span>
+        <br />
+        Время обновление логов на сервере: <span className="updateTime">{store.lastLogsUpdate}</span>
         <br />
         Планируемые обновления:
         <div className="list">

@@ -29,8 +29,7 @@ class LogsApi(Resource):
         self.reqparse.add_argument('server', type=str, location='args')
 
     def get(self):
-        info = requests.get(
-            'https://ob1lab.ru/api/info').json()['local_servers_dates']
+        info = Config.info_server['local_servers_dates']
         server = self.reqparse.parse_args()['server']
         logs_path = f'{Config.logs_path}/{server}/chat_public'
         local_dates = dates_sort(os.listdir(logs_path))
@@ -56,6 +55,7 @@ class LogsApi(Resource):
                     socketio.emit('percent', percent)
                     if percent == 100:
                         break
+        Config.info_server = requests.get('https://ob1lab.ru/api/info').json()
         return ''
 
     def post(self):

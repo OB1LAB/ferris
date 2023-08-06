@@ -9,7 +9,7 @@ import StaffService from "./services/StaffService";
 import { CustomProvider, Loader, useToaster, Notification } from "rsuite";
 import "./App.scss";
 import "rsuite/dist/rsuite.min.css";
-import infoService from "./services/InfoService";
+import InfoService from "./services/InfoService";
 
 function App() {
   const { store } = useContext(Context);
@@ -24,10 +24,11 @@ function App() {
     }
   };
 
-  const getActualVersion = async () => {
+  const getServerInfo = async () => {
     try {
-      const response = await infoService.get();
+      const response = await InfoService.get();
       store.setActualVersion(response.data.actual_version);
+      store.setLastLogsUpdate(response.data.last_update)
     } catch (err) {
       console.log(err);
     }
@@ -48,7 +49,7 @@ function App() {
       );
     });
     getStaff();
-    getActualVersion();
+    getServerInfo();
     if (store.socket) {
       return () => store.socket.disconnect();
     }

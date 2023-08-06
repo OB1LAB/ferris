@@ -1,11 +1,11 @@
 import requests
-from flask import Flask, send_file, Response
+from flask import Flask, Response
 from config import Config
 from flask_restful import Api
 from flask_socketio import SocketIO
 from flask_cors import CORS
 
-version = '1.04'
+version = '1.05'
 app = Flask(__name__, static_folder=None)
 app.config.from_object(Config)
 api = Api(app)
