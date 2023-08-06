@@ -61,5 +61,3 @@
 
 ![Index 1](https://cdn.discordapp.com/attachments/1070414565612982404/1137469550703685755/image.png)
 ![Index 2](https://cdn.discordapp.com/attachments/1070414565612982404/1137683684762337290/image.png)
-
-#### P.s сказать спасибо можно поставив лайк на [аву](https://vk.com/ob1cham?z=photo219373415_457240105%2Falbum219373415_0)
