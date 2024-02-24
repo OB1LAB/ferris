@@ -1,5 +1,5 @@
-client/node_modules
 client/dist
+client/node_modules
 logs
 server/__pycache__
 server/api/__pycache__
@@ -7,3 +7,4 @@ server/app/__pycache__
 server/my_libs/__pycache__
 server/venv
 .vscode
+.idea

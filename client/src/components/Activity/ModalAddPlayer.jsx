@@ -23,7 +23,9 @@ const ModalAddPlayer = ({ open, setOpen, server }) => {
         { Player: nickName, Group: "player" },
       ];
       store.setStaff({ ...store.staff, [server]: staffList });
-      setNickName("");
+      setTimeout(() => {
+        setNickName("");
+      }, 500);
     }
     close();
   };

@@ -11,8 +11,10 @@ from threading import Thread
 
 
 def download_logs(server, date, logs_path):
-    logs_content = requests.get(
-        f'https://ob1lab.ru/api/logs?server={server}&date={date}').text
+    res = requests.get(f'https://ob1lab.ru/api/logs?server={server}&date={date}')
+    if res.status_code != 200:
+        return download_logs(server, date, logs_path)
+    logs_content = res.text
     with open(f'{logs_path}/{date}.txt', 'w', encoding='utf-8') as file:
         file.write(logs_content)
 

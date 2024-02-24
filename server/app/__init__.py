@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_socketio import SocketIO
 from flask_cors import CORS
 
-version = '1.05'
+version = '1.08'
 app = Flask(__name__, static_folder=None)
 app.config.from_object(Config)
 api = Api(app)

@@ -4,7 +4,7 @@
 }
 
 .findPanel {
-  width: 600px;
+  width: 940px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -130,7 +130,7 @@
   height: 80px;
   width: 530px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   div {
     width: auto;
@@ -138,6 +138,26 @@
 }
 
 .pos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .posItem {
+    width: 125px;
+  }
+}
+
+.coordinatesR {
+  height: 80px;
+  width: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  div {
+    width: auto;
+  }
+}
+
+.posR {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

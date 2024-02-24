@@ -62,11 +62,13 @@ const ModalFinder = ({
   setLogsFiltersOriginal,
 }) => {
   const close = () => {
+    setTimeout(() => {
+      setLogsFilters(JSON.parse(JSON.stringify(logsFiltersOriginal)));
+    }, 500);
     setOpen(false);
-    setLogsFilters(JSON.parse(JSON.stringify(logsFiltersOriginal)));
   };
   const [logsFilters, setLogsFilters] = useState(
-    JSON.parse(JSON.stringify(logsFiltersOriginal))
+    JSON.parse(JSON.stringify(logsFiltersOriginal)),
   );
   return (
     <Modal
@@ -149,7 +151,7 @@ const ModalFinder = ({
                   />
                 </div>
               ) : (
-                <div className={classes.coordinates}>
+                <div className={classes.coordinatesR}>
                   <Pos
                     logsFilters={logsFilters}
                     setLogsFilters={setLogsFilters}

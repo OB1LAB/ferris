@@ -5,7 +5,7 @@ import classes from "./Finder.module.scss";
 
 const Pos = ({ logsFilters, setLogsFilters, posNumber }) => {
   return (
-    <div className={classes.pos}>
+    <div className={posNumber === "other" ? classes.posR : classes.pos}>
       {posNumber === "first" ? (
         <>
           <InputNumber

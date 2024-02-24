@@ -11,3 +11,5 @@ python-socketio==5.8.0
 python-xlib==0.33
 pytz==2023.3
 requests==2.28.2
+Werkzeug==2.2.2
+pywinauto==0.6.8

@@ -19,8 +19,8 @@ def global_find(first_date, second_date, find_data, server):
     if find_data['selectedTypeFind'] == "chatPublic":
         logs_path = f'{Config.logs_path}/{server}/chat_public'
         local_logs = os.listdir(logs_path)
-        white_list = find_data['chatPublic']['whiteList'].lower().splitlines()
-        black_list = find_data['chatPublic']['blackList'].lower().splitlines()
+        white_list = find_data['chatPublic']['whiteList'].lower().replace(', ', ',').splitlines()
+        black_list = find_data['chatPublic']['blackList'].lower().replace(', ', ',').splitlines()
         is_white_list = len(white_list) > 0
         is_black_list = len(black_list) > 0
         for date in dates:
@@ -29,31 +29,38 @@ def global_find(first_date, second_date, find_data, server):
                 continue
             with open(f'{logs_path}/{date}.txt', encoding='utf-8') as file:
                 for line in file:
-                    black_line = False
+                    black_line_status = False
                     if is_black_list:
-                        for word in black_list:
-                            if word.lower() in line.lower():
-                                black_line = True
+                        for black_line in black_list:
+                            is_black_line = True
+                            black_words = black_line.split(',')
+                            for word in black_words:
+                                if word not in line.lower():
+                                    is_black_line = False
+                                    break
+                            if is_black_line:
+                                black_line_status = True
                                 break
-                    if black_line:
+                    if black_line_status:
                         continue
                     if is_white_list:
                         for white_words in white_list:
-                            words = white_words.split(', ')
+                            words = white_words.split(',')
                             is_white = True
                             for word in words:
-                                if word.lower() not in line.lower():
+                                if word not in line.lower():
                                     is_white = False
                                     break
                             if is_white:
                                 find_logs.append(add_date_line(line, date))
+                                break
                     else:
                         find_logs.append(add_date_line(line, date))
     elif find_data['selectedTypeFind'] == "chatPrivate":
         logs_path = f'{Config.logs_path}/{server}/chat_private'
         local_logs = os.listdir(logs_path)
-        white_list = find_data['chatPrivate']['whiteList'].lower().splitlines()
-        black_list = find_data['chatPrivate']['blackList'].lower().splitlines()
+        white_list = find_data['chatPrivate']['whiteList'].lower().replace(', ', ',').splitlines()
+        black_list = find_data['chatPrivate']['blackList'].lower().replace(', ', ',').splitlines()
         is_white_list = len(white_list) > 0
         is_black_list = len(black_list) > 0
         for date in dates:
@@ -68,32 +75,39 @@ def global_find(first_date, second_date, find_data, server):
                     break
                 with open(f'{logs_path}/{offset_date}', encoding='utf-8') as file:
                     for line in file:
-                        black_line = False
+                        black_line_status = False
                         if is_black_list:
-                            for word in black_list:
-                                if word.lower() in line.lower():
-                                    black_line = True
+                            for black_line in black_list:
+                                is_black_line = True
+                                black_words = black_line.split(',')
+                                for word in black_words:
+                                    if word not in line.lower():
+                                        is_black_line = False
+                                        break
+                                if is_black_line:
+                                    black_line_status = True
                                     break
-                        if black_line:
+                        if black_line_status:
                             continue
                         if is_white_list:
                             for white_words in white_list:
-                                words = white_words.split(', ')
+                                words = white_words.split(',')
                                 is_white = True
                                 for word in words:
-                                    if word.lower() not in line.lower():
+                                    if word not in line.lower():
                                         is_white = False
                                         break
                                 if is_white:
                                     find_logs.append(add_date_line(line, date))
+                                    break
                         else:
                             find_logs.append(add_date_line(line, date))
                 offset += 1
     elif find_data['selectedTypeFind'] == "dropPrivate":
         logs_path = f'{Config.logs_path}/{server}/drop_private'
         local_logs = os.listdir(logs_path)
-        white_list = find_data['dropPrivate']['whiteList'].lower().splitlines()
-        black_list = find_data['dropPrivate']['blackList'].lower().splitlines()
+        white_list = find_data['dropPrivate']['whiteList'].lower().replace(', ', ',').splitlines()
+        black_list = find_data['dropPrivate']['blackList'].lower().replace(', ', ',').splitlines()
         worlds = find_data['dropPrivate']['worlds']
         is_white_list = len(white_list) > 0
         is_black_list = len(black_list) > 0
@@ -130,27 +144,33 @@ def global_find(first_date, second_date, find_data, server):
                         continue
                     if is_radius and not (x-radius <= x_line <= x+radius and z-radius <= z_line <= z+radius):
                         continue
-                    black_line = False
+                    black_line_status = False
                     if is_black_list:
-                        for word in black_list:
-                            if word.lower() in line.lower():
-                                black_line = True
+                        for black_line in black_list:
+                            is_black_line = True
+                            black_words = black_line.split(',')
+                            for word in black_words:
+                                if word not in line.lower():
+                                    is_black_line = False
+                                    break
+                            if is_black_line:
+                                black_line_status = True
                                 break
-                    if black_line:
+                    if black_line_status:
                         continue
                     if is_white_list:
                         for white_words in white_list:
-                            words = white_words.split(', ')
+                            words = white_words.split(',')
                             is_white = True
                             for word in words:
-                                if word.lower() not in line.lower():
+                                if word not in line.lower():
                                     is_white = False
                                     break
                             if is_white:
-                                find_logs.append(line)
+                                find_logs.append(add_date_line(line, date))
+                                break
                     else:
-                        find_logs.append(line)
+                        find_logs.append(add_date_line(line, date))
     if not_found_logs:
-        socketio.emit(
-            'error', f'Не найдены логи с {not_found_logs[0]} по {not_found_logs[-1]}')
+        socketio.emit('error', f'Не найдены логи с {not_found_logs[0]} по {not_found_logs[-1]}')
     return find_logs
